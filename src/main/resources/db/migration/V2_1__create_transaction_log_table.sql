@@ -1,0 +1,15 @@
+CREATE TABLE TRANSACTION_LOG
+(
+    ID               NUMBER(16) PRIMARY KEY NOT NULL,
+    MOBILE_NUMBER    VARCHAR(20)            NOT NULL,
+    CIF              VARCHAR(100)           NULL,
+    TRANSACTION_TYPE NUMBER(2)              NOT NULL,
+    SOURCE_TYPE      NUMBER(2)              NOT NULL,
+    CREATED_DATE     TIMESTAMP(6)           NOT NULL,
+    CLIENT_IP        VARCHAR(50)            NOT NULL,
+    TYPE             NUMBER(2)              NULL,
+    HEADERS          VARCHAR2(2000)         NULL,
+    BODY             VARCHAR2(2000)         NULL,
+    TRANSACTION_ID   NUMBER(16)             NOT NULL,
+    CONSTRAINT FK_TRANS_LOG__TRANSACTION FOREIGN KEY (TRANSACTION_ID) REFERENCES TRANSACTION (ID)
+);

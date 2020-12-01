@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@192.168.2.13:1521:Orcl
+    username: develop_identity
+    password: tejaratpay
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+server:
+  port: 1200
+bankConfig:
+  endpoint: https://sandbox.parsian-bank.ir/
+chargeServiceConfig:
+  endpoint: http://192.168.2.61:3000/
+  username: test
+  password: test
