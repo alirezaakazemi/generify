@@ -1,3 +1,8 @@
+stages: 
+  - build-maven
+  - build-image
+  - parsian
+
 build-maven:
   image: $repository/docker/jdk8-mvn:latest
   stage: build-maven
@@ -40,4 +45,24 @@ build-image-Development:
     refs:
       - docker
   when: manual 
+
+  Development:
+  stage: loan-test
+  tags:
+    - prep
+  script:
+    - docker login -u $user_repository -p $pass_repository https://$repository
+    - (if [ "$(docker rmi -f $repository/docker/loan/$CONTAINER_NAME:TestStage-old)" ]; then echo "Image removed"; else echo OK; fi;);
+    - (if [ "$(docker tag $repository/docker/loan/$CONTAINER_NAME:TestStage $repository/docker/loan/$CONTAINER_NAME:TestStage-old)" ]; then echo "taged image"; else echo OK; fi;)
+    - docker pull $repository/docker/loan/$CONTAINER_NAME:TestStage
+    - sed -i 's/DOCKERIMAGE/TestStage/g' docker-compose.yml
+    - sed -i 's/\#DEVELOP//g' docker-compose.yml
+    - docker-compose up -d --force-recreate
+    #- docker run  -d  --name gateway-service --env-file .env/db.env  --network loan-net -p 8080:8080  -l  collect_logs_with_filebeat=true -l decode_log_event_to_json_object=true $repository/docker/loan/gateway-service:TestStage1 
+    - sleep 60
+    - (if [  "$(docker ps -aq -f name=$CONTAINER_NAME)" ];  then echo " Job Succeed"; else exit 5; fi;);
+  when : manual
+  only:
+    - docker
+
 
