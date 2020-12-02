@@ -47,7 +47,7 @@ build-image-Development:
   when: manual 
 
   Development:
-  stage: loan-test
+  stage: parsian
   tags:
     - prep
   script:
