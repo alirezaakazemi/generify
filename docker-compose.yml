@@ -10,6 +10,9 @@ services:
     #  decode_log_event_to_json_object: "true"
     networks:
       - loan-net
+    ports:
+      - 1200:1200
+
     environment:
     #  - EUREKA_SERVER=http://discovery:8761/myeureka/eureka
       - TZ=Asia/Tehran
