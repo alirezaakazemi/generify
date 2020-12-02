@@ -31,7 +31,7 @@ build-image-Development:
   tags:
     - loan-build
   script:
-    - ls trarget/
+    #- ls trarget/
     - ls 
     - sleep 60
     - sed -i 's/\#DEVELOP//g' Dockerfile
