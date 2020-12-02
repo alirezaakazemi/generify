@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  cobalt:
+    image: $repository/docker/loan/$CONTAINER_NAME:DOCKERIMAGE
+    hostname: $CONTAINER_NAME
+    container_name: $CONTAINER_NAME
+    restart: always
+    #labels:
+    #  collect_logs_with_filebeat: "true"
+    #  decode_log_event_to_json_object: "true"
+    networks:
+      - loan-net
+    environment:
+    #  - EUREKA_SERVER=http://discovery:8761/myeureka/eureka
+      - TZ=Asia/Tehran
+
+networks:
+  loan-net:
+    name: loan-net
