@@ -1,0 +1,43 @@
+build-maven:
+  image: $repository/docker/jdk8-mvn:latest
+  stage: build-maven
+  tags: 
+    - loan-maven 
+  script:
+    - mvn install:install-file -Dfile=/root/ojdbc6-11.2.0.4.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Dpackaging=jar
+    - mvn clean compile package -Dmaven.test.skip=true 
+    - ls 
+    - slepp 60
+  artifacts:
+    paths:
+     - mobile-bank-service/target/*.war
+  only:
+    changes:
+      - src/**/*.*
+      - Dockerfile 
+      - pom.xml 
+    refs:
+      - docker
+
+build-image-Development: 
+  dependencies: 
+    - build-maven 
+  stage: build-image
+  tags:
+    - loan-build
+  script:
+    - sed -i 's/\#DEVELOP//g' Dockerfile
+    - docker login -u $user_repository -p $pass_repository https://$repository
+    - docker build -t $CONTAINER_NAME .
+    - docker tag $CONTAINER_NAME  $repository/docker/loan/$CONTAINER_NAME:TestStage
+    - docker push $repository/docker/loan/$CONTAINER_NAME:TestStage
+    - docker logout
+  only:
+    changes:
+      - src/**/*.*
+      - Dockerfile 
+      - pom.xml
+    refs:
+      - docker
+  when: manual 
+
