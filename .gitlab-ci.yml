@@ -15,7 +15,7 @@ build-maven:
     - sleep 60
   artifacts:
     paths:
-     - mobile-bank-service/target/*.war
+     - target/*.jar
   only:
     changes:
       - src/**/*.*
@@ -32,7 +32,7 @@ build-image-Development:
     - loan-build
   script:
     #- ls trarget/
-    - ls 
+    - ls -la
     - sleep 60
     - sed -i 's/\#DEVELOP//g' Dockerfile
     - docker login -u $user_repository -p $pass_repository https://$repository
@@ -47,7 +47,7 @@ build-image-Development:
       - pom.xml
     refs:
       - docker
-  when: manual 
+  #when: manual 
 
 Development:
   stage: parsian
