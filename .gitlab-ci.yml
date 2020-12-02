@@ -46,7 +46,7 @@ build-image-Development:
       - docker
   when: manual 
 
-  Development:
+Development:
   stage: parsian
   tags:
     - prep
