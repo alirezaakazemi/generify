@@ -66,7 +66,7 @@ public class CardDepositsService extends AbstractCardService<ClientCardDepositsR
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardDepositsRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardDepositsRequest clientRequest, RequestHeaders headers) {
 
     }
 

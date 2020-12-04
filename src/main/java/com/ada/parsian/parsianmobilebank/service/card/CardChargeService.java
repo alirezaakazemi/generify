@@ -56,7 +56,7 @@ public class CardChargeService extends AbstractCardService<ClientCardChargeReque
             storeClientRequestLog(clientRequest, headers);
 
             // Store Charge in db
-            storeSubTransactionInDB(clientRequest);
+            storeSubTransactionInDB(clientRequest, headers);
 
             // Reserve charge
             charge = reserveCharge(clientRequest, headers);
@@ -113,7 +113,7 @@ public class CardChargeService extends AbstractCardService<ClientCardChargeReque
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardChargeRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardChargeRequest clientRequest, RequestHeaders headers) {
 
         Charge charge = new Charge();
         charge.setDestinationMobile(clientRequest.getDestPhoneNumber());

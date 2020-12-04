@@ -66,7 +66,7 @@ public class CardStatementInquiryService extends AbstractCardService<ClientCardS
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardStatementInquiryRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardStatementInquiryRequest clientRequest, RequestHeaders headers) {
 
     }
 

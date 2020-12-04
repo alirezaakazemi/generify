@@ -104,7 +104,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
         return transactionRepository.save(transaction);
     }
 
-    protected abstract void storeSubTransactionInDB(T clientRequest);
+    protected abstract void storeSubTransactionInDB(T clientRequest, RequestHeaders headers);
 
     /**
      * Store body of client request in database

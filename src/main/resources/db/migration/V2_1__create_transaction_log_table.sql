@@ -4,7 +4,7 @@ CREATE TABLE TRANSACTION_LOG
     MOBILE_NUMBER    VARCHAR(20)            NOT NULL,
     CIF              VARCHAR(100)           NULL,
     TRANSACTION_TYPE NUMBER(1)              NOT NULL,
-    SOURCE_TYPE      NUMBER(1)              NOT NULL,
+    SOURCE_TYPE      NUMBER(1)              NULL,
     CREATED_DATE     TIMESTAMP(6)           NOT NULL,
     CLIENT_IP        VARCHAR(50)            NOT NULL,
     TYPE             NUMBER(1)              NULL,

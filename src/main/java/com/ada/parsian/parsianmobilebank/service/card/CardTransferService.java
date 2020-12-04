@@ -54,7 +54,7 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
             storeClientRequestLog(clientRequest, headers);
 
             // Store cardTransfer in db
-            storeSubTransactionInDB(clientRequest);
+            storeSubTransactionInDB(clientRequest, headers);
 
             // Initial bankTransferRequest
             BankCardTransferRequest bankCardTransferRequest = createBankRequest(clientRequest, headers);
@@ -76,7 +76,7 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardTransferRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardTransferRequest clientRequest, RequestHeaders headers) {
         CardTransfer cardTransfer = new CardTransfer();
         cardTransfer.setTransactionId(transaction.getId());
         cardTransfer.setDestination(clientRequest.getDestination());

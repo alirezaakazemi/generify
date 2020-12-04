@@ -54,7 +54,7 @@ public class CardPayBillService extends AbstractCardService<ClientCardPayBillReq
             storeClientRequestLog(clientRequest, headers);
 
             // Store cardPayBill in db
-            storeSubTransactionInDB(clientRequest);
+            storeSubTransactionInDB(clientRequest, headers);
 
             // Initial bankPayBillRequest
             BankCardPayBillRequest bankCardPayBillRequest = createBankRequest(clientRequest, headers);
@@ -77,7 +77,7 @@ public class CardPayBillService extends AbstractCardService<ClientCardPayBillReq
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardPayBillRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardPayBillRequest clientRequest, RequestHeaders headers) {
 
         PayBill payBill = new PayBill();
         payBill.setBillId(clientRequest.getBillId());
