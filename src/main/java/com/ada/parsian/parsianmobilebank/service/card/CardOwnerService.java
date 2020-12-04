@@ -7,8 +7,8 @@ import com.ada.parsian.parsianmobilebank.client.card.model.BankCardOwnerResponse
 import com.ada.parsian.parsianmobilebank.model.RequestHeaders;
 import com.ada.parsian.parsianmobilebank.model.SourceType;
 import com.ada.parsian.parsianmobilebank.model.TransactionType;
-import com.ada.parsian.parsianmobilebank.model.card.ClientCardOwnerRequest;
-import com.ada.parsian.parsianmobilebank.model.card.ClientCardOwnerResponse;
+import com.ada.parsian.parsianmobilebank.model.card.ClientOwnerRequest;
+import com.ada.parsian.parsianmobilebank.model.card.ClientOwnerResponse;
 import com.ada.parsian.parsianmobilebank.repository.TransactionRepository;
 import com.ada.parsian.parsianmobilebank.repository.log.LogRepository;
 import org.springframework.context.MessageSource;
@@ -18,7 +18,7 @@ import retrofit2.Response;
 import java.io.IOException;
 
 @Service
-public class CardOwnerService extends AbstractCardService<ClientCardOwnerRequest, ClientCardOwnerResponse, BankCardOwnerRequest, BankCardOwnerResponse> {
+public class CardOwnerService extends AbstractCardService<ClientOwnerRequest, ClientOwnerResponse, BankCardOwnerRequest, BankCardOwnerResponse> {
 
 
     /**
@@ -31,12 +31,12 @@ public class CardOwnerService extends AbstractCardService<ClientCardOwnerRequest
      * @param logRepository
      * @param transactionRepository
      */
-    public CardOwnerService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardOwnerService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     @Override
-    public ClientCardOwnerResponse execute(RequestHeaders headers, ClientCardOwnerRequest clientRequest) {
+    public ClientOwnerResponse execute(RequestHeaders headers, ClientOwnerRequest clientRequest) {
 
         try {
 
@@ -67,19 +67,19 @@ public class CardOwnerService extends AbstractCardService<ClientCardOwnerRequest
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardOwnerRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientOwnerRequest clientRequest) {
 
     }
 
     @Override
-    protected BankCardOwnerRequest createBankRequest(ClientCardOwnerRequest clientRequest, RequestHeaders headers) {
+    protected BankCardOwnerRequest createBankRequest(ClientOwnerRequest clientRequest, RequestHeaders headers) {
 
         // Initial bankCardOwnerRequest
         BankCardOwnerRequest bankCardOwnerRequest = new BankCardOwnerRequest();
         bankCardOwnerRequest.setPan(clientRequest.getPan());
-        bankCardOwnerRequest.setDestinationPan(clientRequest.getDestinationPan());
+        bankCardOwnerRequest.setDestinationPan(clientRequest.getDestinationNumber());
 
-        bankCardOwnerRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getCardAuthorizeParams()));
+        bankCardOwnerRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getEauth()));
 
         return bankCardOwnerRequest;
     }
@@ -95,13 +95,13 @@ public class CardOwnerService extends AbstractCardService<ClientCardOwnerRequest
     }
 
     @Override
-    protected ClientCardOwnerResponse createClientResponse(BankCardOwnerResponse response) {
-        ClientCardOwnerResponse clientCardOwnerResponse = new ClientCardOwnerResponse();
-        clientCardOwnerResponse.setBankName(response.getOwnerBankName());
-        clientCardOwnerResponse.setOwnerName(response.getFirstName() + " " + response.getLastName());
-        clientCardOwnerResponse.setTransactionNumber(response.getTransactionNumber());
+    protected ClientOwnerResponse createClientResponse(BankCardOwnerResponse response) {
+        ClientOwnerResponse clientOwnerResponse = new ClientOwnerResponse();
+        clientOwnerResponse.setBankName(response.getOwnerBankName());
+        clientOwnerResponse.setName(response.getFirstName() + " " + response.getLastName());
+        clientOwnerResponse.setTransactionNumber(response.getTransactionNumber());
 
-        return clientCardOwnerResponse;
+        return clientOwnerResponse;
     }
 
     @Override

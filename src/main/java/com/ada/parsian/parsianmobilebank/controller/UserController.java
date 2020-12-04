@@ -2,7 +2,7 @@ package com.ada.parsian.parsianmobilebank.controller;
 
 import com.ada.parsian.parsianmobilebank.model.ClientLoginRequest;
 import com.ada.parsian.parsianmobilebank.model.ClientLoginResponse;
-import com.ada.parsian.parsianmobilebank.service.LoginService;
+import com.ada.parsian.parsianmobilebank.service.user.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/account")
-public class LoginController extends BaseController {
+@RequestMapping(path = "/user")
+public class UserController extends BaseController {
 
     private final LoginService loginService;
 
     @Autowired
-    public LoginController(LoginService loginService) {
+    public UserController(LoginService loginService) {
         this.loginService = loginService;
     }
 

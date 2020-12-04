@@ -1,4 +1,4 @@
-package com.ada.parsian.parsianmobilebank.service;
+package com.ada.parsian.parsianmobilebank.service.user;
 
 import com.ada.parsian.parsianmobilebank.AppConfig;
 import com.ada.parsian.parsianmobilebank.client.LoginClient;
@@ -11,6 +11,7 @@ import com.ada.parsian.parsianmobilebank.model.RequestHeaders;
 import com.ada.parsian.parsianmobilebank.model.TransactionType;
 import com.ada.parsian.parsianmobilebank.repository.TransactionRepository;
 import com.ada.parsian.parsianmobilebank.repository.log.LogRepository;
+import com.ada.parsian.parsianmobilebank.service.AbstractService;
 import com.google.gson.Gson;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class LoginService extends AbstractService<ClientLoginRequest, ClientLogi
      *
      * @param messageSource used for reading persian messages from messages.properties file.
      */
-    public LoginService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public LoginService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     @Override

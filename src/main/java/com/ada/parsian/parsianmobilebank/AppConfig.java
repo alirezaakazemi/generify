@@ -17,6 +17,7 @@ public class AppConfig {
 
     private ChargeServiceConfig chargeServiceConfig;
     private BankConfig bankConfig;
+    private EncryptionParam encryptionParam;
     private Spring spring;
 
     public AppConfig() {
@@ -63,6 +64,14 @@ public class AppConfig {
 
     public void setBankConfig(BankConfig bankConfig) {
         this.bankConfig = bankConfig;
+    }
+
+    public EncryptionParam getEncryptionParam() {
+        return encryptionParam;
+    }
+
+    public void setEncryptionParam(EncryptionParam encryptionParam) {
+        this.encryptionParam = encryptionParam;
     }
 
     public Spring getSpring() {
@@ -166,6 +175,21 @@ public class AppConfig {
 
         public void setPassword(String password) {
             this.password = password;
+        }
+    }
+
+    public static class EncryptionParam {
+        private String secretKey;
+
+        public EncryptionParam() {
+        }
+
+        public String getSecretKey() {
+            return secretKey;
+        }
+
+        public void setSecretKey(String secretKey) {
+            this.secretKey = secretKey;
         }
     }
 }

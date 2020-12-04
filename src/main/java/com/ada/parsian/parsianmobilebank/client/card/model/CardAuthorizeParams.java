@@ -3,7 +3,7 @@ package com.ada.parsian.parsianmobilebank.client.card.model;
 
 public class CardAuthorizeParams {
     private String cvv2;
-    private String expDate;
+    private String expireDate;
     private String pin;
     private String pinType;
 
@@ -18,12 +18,12 @@ public class CardAuthorizeParams {
         this.cvv2 = cvv2;
     }
 
-    public String getExpDate() {
-        return expDate;
+    public String getExpireDate() {
+        return expireDate;
     }
 
-    public void setExpDate(String expDate) {
-        this.expDate = expDate;
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
     }
 
     public String getPin() {

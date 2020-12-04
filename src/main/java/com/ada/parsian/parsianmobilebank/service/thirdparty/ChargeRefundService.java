@@ -1,4 +1,4 @@
-package com.ada.parsian.parsianmobilebank.service;
+package com.ada.parsian.parsianmobilebank.service.thirdparty;
 
 import com.ada.parsian.parsianmobilebank.AppConfig;
 import com.ada.parsian.parsianmobilebank.Util.ParsianUtil;

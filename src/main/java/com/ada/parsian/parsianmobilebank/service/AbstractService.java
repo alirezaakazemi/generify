@@ -47,6 +47,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
     protected Transaction transaction;
     protected LogRepository logRepository;
     protected TransactionRepository transactionRepository;
+    protected AppConfig appConfig;
 
     /**
      * In this constructor you must pass messageSource param. in the subclass you should define parameter
@@ -57,10 +58,11 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
      * @param messageSource         used for reading persian messages from messages.properties file.
      * @param transactionRepository
      */
-    public AbstractService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
+    public AbstractService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
         this.messageSource = messageSource;
         this.logRepository = logRepository;
         this.transactionRepository = transactionRepository;
+        this.appConfig = appConfig;
     }
 
     /**

@@ -32,14 +32,4 @@ public class ClientGetCardsRequest implements IClientCardRequest {
     public void setOffset(int offset) {
         this.offset = offset;
     }
-
-    @Override
-    public ClientCardAuthorizeParams getCardAuthorizeParams() {
-        return null;
-    }
-
-    @Override
-    public void setCardAuthorizeParams(ClientCardAuthorizeParams cardAuthorizeParams) {
-
-    }
 }

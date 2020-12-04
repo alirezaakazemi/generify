@@ -1,7 +1,10 @@
 package com.ada.parsian.parsianmobilebank.Util;
 
+import com.ada.parsian.parsianmobilebank.client.card.model.CardAuthorizeParams;
+import com.google.gson.Gson;
 import org.springframework.context.MessageSource;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,5 +30,20 @@ public class ParsianUtil {
         }
 
         return new java.sql.Timestamp(System.currentTimeMillis());
+    }
+
+    public static CardAuthorizeParams decrypt(String encrypted, String secretKey) {
+
+        SecretKeySpec key = new SecretKeySpec(secretKey.getBytes(), "AES");
+
+        String decryptedValue = null;
+        try {
+            decryptedValue = EncryptionUtil.decrypt(encrypted, "AES", key);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Gson().fromJson(decryptedValue, CardAuthorizeParams.class);
     }
 }

@@ -1,10 +1,11 @@
 package com.ada.parsian.parsianmobilebank.model.card;
 
-public class ClientCardStatementInquiryRequest implements IClientCardRequest {
+import com.ada.parsian.parsianmobilebank.model.ClientBaseRequest;
+
+public class ClientCardStatementInquiryRequest extends ClientBaseRequest implements IClientCardRequest {
 
     private String depositNumber;
     private String pan;
-    private ClientCardAuthorizeParams cardAuthorizeParams;
 
     public ClientCardStatementInquiryRequest() {
     }
@@ -23,13 +24,5 @@ public class ClientCardStatementInquiryRequest implements IClientCardRequest {
 
     public void setPan(String pan) {
         this.pan = pan;
-    }
-
-    public ClientCardAuthorizeParams getCardAuthorizeParams() {
-        return cardAuthorizeParams;
-    }
-
-    public void setCardAuthorizeParams(ClientCardAuthorizeParams cardAuthorizeParams) {
-        this.cardAuthorizeParams = cardAuthorizeParams;
     }
 }

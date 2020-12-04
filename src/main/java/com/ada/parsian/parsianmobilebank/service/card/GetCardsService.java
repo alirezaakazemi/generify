@@ -30,8 +30,8 @@ public class GetCardsService extends AbstractCardService<ClientGetCardsRequest, 
      * @param logRepository
      * @param transactionRepository
      */
-    public GetCardsService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public GetCardsService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     @Override

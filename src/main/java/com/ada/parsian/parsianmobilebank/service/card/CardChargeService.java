@@ -39,8 +39,8 @@ public class CardChargeService extends AbstractCardService<ClientCardChargeReque
      * @param logRepository
      * @param transactionRepository
      */
-    public CardChargeService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, ChargeRepository chargeRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardChargeService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, ChargeRepository chargeRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
         this.chargeRepository = chargeRepository;
     }
 
@@ -128,7 +128,7 @@ public class CardChargeService extends AbstractCardService<ClientCardChargeReque
         BankCardPaymentRequest bankCardPaymentRequest = new BankCardPaymentRequest();
         bankCardPaymentRequest.setAmount(clientRequest.getAmount());
 
-        bankCardPaymentRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getCardAuthorizeParams()));
+        bankCardPaymentRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getEauth()));
 
         return bankCardPaymentRequest;
     }
@@ -150,14 +150,10 @@ public class CardChargeService extends AbstractCardService<ClientCardChargeReque
     protected ClientCardChargeResponse createClientResponse(BankCardPaymentResponse response) {
 
         ClientCardChargeResponse clientCardChargeResponse = new ClientCardChargeResponse();
-        clientCardChargeResponse.setAmount(transaction.getAmount());
-        clientCardChargeResponse.setProductId(String.valueOf(charge.getProductId()));
         clientCardChargeResponse.setTransactionNumber(String.valueOf(transaction.getId()));
         clientCardChargeResponse.setTransactionDate(transaction.getTransactionDate().getTime());
-        clientCardChargeResponse.setDestPhoneNumber(charge.getDestinationMobile());
         clientCardChargeResponse.setAvailableBalance(response.getAmountBean().getAvailableBalance().getValue());
-        clientCardChargeResponse.setLedgerBalance(response.getAmountBean().getLedgerBalance().getValue());
-        clientCardChargeResponse.setCurrency(response.getAmountBean().getAvailableBalance().getCurrency());
+        clientCardChargeResponse.setChargeStatus(response.getAmountBean().getAvailableBalance().getCurrency());
 
         return clientCardChargeResponse;
     }

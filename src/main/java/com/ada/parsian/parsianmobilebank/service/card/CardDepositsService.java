@@ -30,8 +30,8 @@ public class CardDepositsService extends AbstractCardService<ClientCardDepositsR
      * @param logRepository
      * @param transactionRepository
      */
-    public CardDepositsService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardDepositsService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     @Override

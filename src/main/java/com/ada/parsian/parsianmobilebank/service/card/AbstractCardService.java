@@ -1,5 +1,7 @@
 package com.ada.parsian.parsianmobilebank.service.card;
 
+import com.ada.parsian.parsianmobilebank.AppConfig;
+import com.ada.parsian.parsianmobilebank.Util.ParsianUtil;
 import com.ada.parsian.parsianmobilebank.client.card.model.CardAuthorizeParams;
 import com.ada.parsian.parsianmobilebank.client.card.model.IBankCardRequest;
 import com.ada.parsian.parsianmobilebank.client.card.model.IBankCardResponse;
@@ -47,8 +49,8 @@ public abstract class AbstractCardService<T extends IClientCardRequest, K extend
      *
      * @param messageSource used for reading persian messages from messages.properties file.
      */
-    public AbstractCardService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public AbstractCardService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     protected CardAuthorizeParams getCardAuthorizeParams(ClientCardAuthorizeParams params) {
@@ -56,7 +58,14 @@ public abstract class AbstractCardService<T extends IClientCardRequest, K extend
         CardAuthorizeParams cardAuthorizeParams = new CardAuthorizeParams();
         cardAuthorizeParams.setCvv2(params.getCvv2());
         cardAuthorizeParams.setPin(params.getPin());
-        cardAuthorizeParams.setExpDate(params.getExpDate());
+        cardAuthorizeParams.setExpireDate(params.getExpDate());
+        cardAuthorizeParams.setPinType(PinType.EPAY.value());
+        return cardAuthorizeParams;
+    }
+
+    protected CardAuthorizeParams getCardAuthorizeParams(String eauth) {
+
+        CardAuthorizeParams cardAuthorizeParams = ParsianUtil.decrypt(eauth, appConfig.getEncryptionParam().getSecretKey());
         cardAuthorizeParams.setPinType(PinType.EPAY.value());
         return cardAuthorizeParams;
     }

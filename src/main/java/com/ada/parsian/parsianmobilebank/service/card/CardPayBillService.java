@@ -38,8 +38,8 @@ public class CardPayBillService extends AbstractCardService<ClientCardPayBillReq
      * @param logRepository
      * @param transactionRepository
      */
-    public CardPayBillService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, PayBillRepository payBillRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardPayBillService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, PayBillRepository payBillRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
         this.payBillRepository = payBillRepository;
     }
 
@@ -95,7 +95,7 @@ public class CardPayBillService extends AbstractCardService<ClientCardPayBillReq
         bankCardPayBillRequest.setPayId(clientRequest.getPayId());
         bankCardPayBillRequest.setPan(clientRequest.getPan());
 
-        bankCardPayBillRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getCardAuthorizeParams()));
+        bankCardPayBillRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getEauth()));
 
         return bankCardPayBillRequest;
     }
@@ -116,10 +116,10 @@ public class CardPayBillService extends AbstractCardService<ClientCardPayBillReq
         ClientCardPayBillResponse clientCardPayBillResponse = new ClientCardPayBillResponse();
         Timestamp dateTimeFromPattern = ParsianUtil.getDateTimeFromPattern(response.getDate());
         clientCardPayBillResponse.setTransactionDate(dateTimeFromPattern.getTime());
-        clientCardPayBillResponse.setBillId(response.getBillId());
-        clientCardPayBillResponse.setPayId(response.getPayId());
-        clientCardPayBillResponse.setBillTitle(response.getBillTitle());
         clientCardPayBillResponse.setBillType(response.getBillType());
+
+        // TODO: 12/2/2020
+//        clientCardPayBillResponse.setAvailableBalance(response.getBillType());
 
         return clientCardPayBillResponse;
     }

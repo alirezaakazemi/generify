@@ -31,8 +31,8 @@ public class CardBalanceInquiryService extends AbstractCardService<ClientCardBal
      * @param logRepository
      * @param transactionRepository
      */
-    public CardBalanceInquiryService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardBalanceInquiryService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class CardBalanceInquiryService extends AbstractCardService<ClientCardBal
         bankRequest.setDepositNumber(clientRequest.getDepositNumber());
         bankRequest.setPan(clientRequest.getPan());
 
-        bankRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getCardAuthorizeParams()));
+        bankRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getEauth()));
 
         return bankRequest;
     }
@@ -98,7 +98,6 @@ public class CardBalanceInquiryService extends AbstractCardService<ClientCardBal
         ClientCardBalanceInquiryResponse clientCardBalanceInquiryResponse = new ClientCardBalanceInquiryResponse();
         clientCardBalanceInquiryResponse.setAvailableBalance(response.getAvailableBalance().getValue());
         clientCardBalanceInquiryResponse.setLedgerBalance(response.getLedgerBalance().getValue());
-        clientCardBalanceInquiryResponse.setCurrency(response.getAvailableBalance().getCurrency());
 
         return clientCardBalanceInquiryResponse;
     }
