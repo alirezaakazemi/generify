@@ -9,7 +9,7 @@ public class PayBill {
     private long transactionId;
     private String billId;
     private String payId;
-    private Long billType;
+    private String billType;
 
     @Id
     @Column(name = "TRANSACTION_ID")
@@ -43,11 +43,11 @@ public class PayBill {
 
     @Basic
     @Column(name = "BILL_TYPE")
-    public Long getBillType() {
+    public String getBillType() {
         return billType;
     }
 
-    public void setBillType(Long billType) {
+    public void setBillType(String billType) {
         this.billType = billType;
     }
 

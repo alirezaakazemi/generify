@@ -1,4 +1,4 @@
-package com.ada.parsian.parsianmobilebank.service;
+package com.ada.parsian.parsianmobilebank.service.user;
 
 import com.ada.parsian.parsianmobilebank.AppConfig;
 import com.ada.parsian.parsianmobilebank.client.LoginClient;
@@ -9,18 +9,26 @@ import com.ada.parsian.parsianmobilebank.model.ClientLoginRequest;
 import com.ada.parsian.parsianmobilebank.model.ClientLoginResponse;
 import com.ada.parsian.parsianmobilebank.model.RequestHeaders;
 import com.ada.parsian.parsianmobilebank.model.TransactionType;
+import com.ada.parsian.parsianmobilebank.repository.CustomerRepository;
 import com.ada.parsian.parsianmobilebank.repository.TransactionRepository;
+import com.ada.parsian.parsianmobilebank.repository.entity.Customer;
 import com.ada.parsian.parsianmobilebank.repository.log.LogRepository;
+import com.ada.parsian.parsianmobilebank.service.AbstractService;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Map;
 
 @Service
 public class LoginService extends AbstractService<ClientLoginRequest, ClientLoginResponse, LoginRequest, LoginResponse> {
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     /**
      * In this constructor you must pass messageSource param. in the subclass you should define parameter
@@ -30,8 +38,9 @@ public class LoginService extends AbstractService<ClientLoginRequest, ClientLogi
      *
      * @param messageSource used for reading persian messages from messages.properties file.
      */
-    public LoginService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public LoginService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig, CustomerRepository customerRepository) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -44,6 +53,9 @@ public class LoginService extends AbstractService<ClientLoginRequest, ClientLogi
 
             // Store clientRequest in db
             storeClientRequestLog(clientRequest, headers);
+
+            // Store cardTransfer in db
+            storeSubTransactionInDB(clientRequest, headers);
 
             // Initial bankLoginRequest
             LoginRequest bankLoginRequest = createBankRequest(clientRequest, headers);
@@ -71,8 +83,7 @@ public class LoginService extends AbstractService<ClientLoginRequest, ClientLogi
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientLoginRequest clientRequest) {
-
+    protected void storeSubTransactionInDB(ClientLoginRequest clientRequest, RequestHeaders headers) {
     }
 
     @Override
@@ -98,6 +109,35 @@ public class LoginService extends AbstractService<ClientLoginRequest, ClientLogi
     @Override
     protected Response<LoginResponse> callService(LoginRequest request, RequestHeaders requestHeaders) throws IOException {
         return LoginClient.instance.login(request).execute();
+    }
+
+    @Override
+    protected LoginResponse handleBankResponseAndLogReceivedResponse(Response<LoginResponse> response, RequestHeaders headers) {
+
+        // Handle response
+        LoginResponse loginResponse = super.handleBankResponseAndLogReceivedResponse(response, headers);
+
+        // Login is successful, So store customer in DB if he is not stored before
+        // Get customer with mobileNumber
+        Customer customer = customerRepository.findByMobileNumber(headers.getMobileNumber());
+
+        if (customer == null) { // Customer not stored before
+            customer = new Customer();
+            customer.setCif(loginResponse.getCustomerNumber());
+            customer.setGender(loginResponse.getGender());
+            customer.setMobileNumber(headers.getMobileNumber());
+            customer.setName(loginResponse.getName());
+
+            // Get current time
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+            customer.setCreatedDate(now);
+            customer.setModifiedDate(now);
+
+            // Store customer
+            customer = customerRepository.save(customer);
+        }
+
+        return loginResponse;
     }
 
     @Override

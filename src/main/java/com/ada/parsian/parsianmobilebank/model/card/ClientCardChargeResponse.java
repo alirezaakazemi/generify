@@ -1,19 +1,18 @@
 package com.ada.parsian.parsianmobilebank.model.card;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ClientCardChargeResponse implements IClientCardResponse {
 
     private long availableBalance;
-    private long ledgerBalance;
-    private String currency;
-    private String productId;
-    private String destPhoneNumber;
-    private long amount;
+    private String chargeStatus;
     private Long transactionDate;
     private String transactionNumber;
 
     public ClientCardChargeResponse() {
     }
 
+    @JsonProperty("balance")
     public long getAvailableBalance() {
         return availableBalance;
     }
@@ -22,44 +21,13 @@ public class ClientCardChargeResponse implements IClientCardResponse {
         this.availableBalance = availableBalance;
     }
 
-    public long getLedgerBalance() {
-        return ledgerBalance;
+    @JsonProperty("charge_status")
+    public String getChargeStatus() {
+        return chargeStatus;
     }
 
-    public void setLedgerBalance(long ledgerBalance) {
-        this.ledgerBalance = ledgerBalance;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public String getDestPhoneNumber() {
-        return destPhoneNumber;
-    }
-
-    public void setDestPhoneNumber(String destPhoneNumber) {
-        this.destPhoneNumber = destPhoneNumber;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(long amount) {
-        this.amount = amount;
+    public void setChargeStatus(String chargeStatus) {
+        this.chargeStatus = chargeStatus;
     }
 
     public Long getTransactionDate() {
@@ -70,6 +38,7 @@ public class ClientCardChargeResponse implements IClientCardResponse {
         this.transactionDate = transactionDate;
     }
 
+    @JsonProperty("tracker_id")
     public String getTransactionNumber() {
         return transactionNumber;
     }

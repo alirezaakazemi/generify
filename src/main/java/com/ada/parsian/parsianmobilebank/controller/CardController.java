@@ -36,7 +36,7 @@ public class CardController extends BaseController {
     }
 
     @PostMapping(path = "/owner")
-    public ClientCardOwnerResponse owner(@RequestHeader Map<String, String> requestHeaders, HttpServletRequest servletRequest, @RequestBody ClientCardOwnerRequest request) {
+    public ClientOwnerResponse owner(@RequestHeader Map<String, String> requestHeaders, HttpServletRequest servletRequest, @RequestBody ClientOwnerRequest request) {
         return cardOwnerService.execute(getHeaders(requestHeaders, servletRequest), request);
     }
 

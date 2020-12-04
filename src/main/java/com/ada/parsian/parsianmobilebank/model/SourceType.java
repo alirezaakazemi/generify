@@ -2,19 +2,19 @@ package com.ada.parsian.parsianmobilebank.model;
 
 public enum SourceType {
 
-    DEPOSIT((long) 1), CARD((long) 2);
+    DEPOSIT((byte) 1), CARD((byte) 2);
 
-    private final Long value;
+    private final Byte value;
 
-    SourceType(Long value) {
+    SourceType(Byte value) {
         this.value = value;
     }
 
-    public Long getValue() {
+    public Byte getValue() {
         return value;
     }
 
-    public SourceType getType(Long type) {
+    public SourceType getType(Byte type) {
 
         for (SourceType sourceType : SourceType.values()) {
             if (sourceType.value.equals(type)) {

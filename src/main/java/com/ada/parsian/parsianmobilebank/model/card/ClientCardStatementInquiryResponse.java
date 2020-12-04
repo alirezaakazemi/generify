@@ -2,6 +2,7 @@ package com.ada.parsian.parsianmobilebank.model.card;
 
 import com.ada.parsian.parsianmobilebank.Util.ParsianUtil;
 import com.ada.parsian.parsianmobilebank.client.card.model.BankCardStatementInquiryResponse;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ClientCardStatementInquiryResponse implements IClientCardResponse {
         }
     }
 
+    @JsonProperty("statement_bean_clients")
     public List<ClientCardStatement> getCardStatementList() {
         return clientCardStatementList;
     }

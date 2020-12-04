@@ -1,14 +1,16 @@
 package com.ada.parsian.parsianmobilebank.model.card;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ClientCardBalanceInquiryResponse implements IClientCardResponse {
 
     private long availableBalance;
     private long ledgerBalance;
-    private String currency;
 
     public ClientCardBalanceInquiryResponse() {
     }
 
+    @JsonProperty("available_balance")
     public long getAvailableBalance() {
         return availableBalance;
     }
@@ -17,6 +19,7 @@ public class ClientCardBalanceInquiryResponse implements IClientCardResponse {
         this.availableBalance = availableBalance;
     }
 
+    @JsonProperty("ledger_balance")
     public long getLedgerBalance() {
         return ledgerBalance;
     }
@@ -25,11 +28,4 @@ public class ClientCardBalanceInquiryResponse implements IClientCardResponse {
         this.ledgerBalance = ledgerBalance;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
 }

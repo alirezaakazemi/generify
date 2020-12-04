@@ -1,22 +1,26 @@
 package com.ada.parsian.parsianmobilebank.model.card;
 
-public class ClientCardOwnerResponse implements IClientCardResponse {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    private String ownerName;
+public class ClientOwnerResponse implements IClientCardResponse {
+
+    private String name;
     private String bankName;
     private String transactionNumber;
 
-    public ClientCardOwnerResponse() {
+    public ClientOwnerResponse() {
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    @JsonProperty("owner_name")
+    public String getName() {
+        return name;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    @JsonProperty("bank_name")
     public String getBankName() {
         return bankName;
     }

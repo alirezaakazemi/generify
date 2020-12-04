@@ -5,6 +5,7 @@ import com.ada.parsian.parsianmobilebank.Util.ParsianUtil;
 import com.ada.parsian.parsianmobilebank.client.card.CardClient;
 import com.ada.parsian.parsianmobilebank.client.card.model.BankCardTransferRequest;
 import com.ada.parsian.parsianmobilebank.client.card.model.BankCardTransferResponse;
+import com.ada.parsian.parsianmobilebank.client.card.model.CardAuthorizeParams;
 import com.ada.parsian.parsianmobilebank.model.*;
 import com.ada.parsian.parsianmobilebank.model.card.ClientCardTransferRequest;
 import com.ada.parsian.parsianmobilebank.model.card.ClientCardTransferResponse;
@@ -37,8 +38,8 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
      * @param logRepository
      * @param transactionRepository
      */
-    public CardTransferService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, CardRepository cardRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardTransferService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, CardRepository cardRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
         this.cardRepository = cardRepository;
     }
 
@@ -53,7 +54,7 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
             storeClientRequestLog(clientRequest, headers);
 
             // Store cardTransfer in db
-            storeSubTransactionInDB(clientRequest);
+            storeSubTransactionInDB(clientRequest, headers);
 
             // Initial bankTransferRequest
             BankCardTransferRequest bankCardTransferRequest = createBankRequest(clientRequest, headers);
@@ -72,14 +73,13 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
             // Handle and throw exception
             throw handleServiceUnAvailableException(headers, e);
         }
-
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardTransferRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardTransferRequest clientRequest, RequestHeaders headers) {
         CardTransfer cardTransfer = new CardTransfer();
         cardTransfer.setTransactionId(transaction.getId());
-        cardTransfer.setDestination(clientRequest.getDestinationPan());
+        cardTransfer.setDestination(clientRequest.getDestination());
         cardTransfer.setDestinationType(DestinationType.CARD.getValue());
 
         cardRepository.save(cardTransfer);
@@ -88,13 +88,16 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
     @Override
     protected BankCardTransferRequest createBankRequest(ClientCardTransferRequest clientRequest, RequestHeaders headers) {
 
+        // Get cardAuthorizeParams
+        CardAuthorizeParams cardAuthorizeParams = getCardAuthorizeParams(clientRequest.getEauth());
+
         BankCardTransferRequest bankCardTransferRequest = new BankCardTransferRequest();
         bankCardTransferRequest.setAmount(clientRequest.getAmount());
-        bankCardTransferRequest.setCvv2(clientRequest.getCardAuthorizeParams().getCvv2());
-        bankCardTransferRequest.setPin(clientRequest.getCardAuthorizeParams().getPin());
+        bankCardTransferRequest.setCvv2(cardAuthorizeParams.getCvv2());
+        bankCardTransferRequest.setPin(cardAuthorizeParams.getPin());
         bankCardTransferRequest.setPinType(PinType.EPAY.value());
-        bankCardTransferRequest.setExpDate(clientRequest.getCardAuthorizeParams().getExpDate());
-        bankCardTransferRequest.setDestination(clientRequest.getDestinationPan());
+        bankCardTransferRequest.setExpDate(cardAuthorizeParams.getExpireDate());
+        bankCardTransferRequest.setDestination(clientRequest.getDestination());
         bankCardTransferRequest.setDestinationType(TransferDestinationType.PAN.getValue());
         bankCardTransferRequest.setPan(clientRequest.getPan());
         bankCardTransferRequest.setTransactionNumber(clientRequest.getTransactionNumber());
@@ -125,7 +128,6 @@ public class CardTransferService extends AbstractCardService<ClientCardTransferR
     protected ClientCardTransferResponse createClientResponse(BankCardTransferResponse response) {
         ClientCardTransferResponse clientCardTransferResponse = new ClientCardTransferResponse();
         clientCardTransferResponse.setAvailableBalance(response.getDeposit().getAvailableBalance().getValue());
-        clientCardTransferResponse.setCurrency(response.getDeposit().getAvailableBalance().getCurrency());
         clientCardTransferResponse.setLedgerBalance(response.getDeposit().getLedgerBalance().getValue());
         Timestamp dateTimeFromPattern = ParsianUtil.getDateTimeFromPattern(response.getTransactionDate());
         clientCardTransferResponse.setTransactionDate(dateTimeFromPattern.getTime());

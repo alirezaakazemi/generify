@@ -189,7 +189,7 @@ public abstract class AbstractThirdPartyCommand<T extends IClientCardRequest, K 
 
         // Initial transaction
         transaction.setResponseCode(responseCode);
-        transaction.setStatus(Long.valueOf(status));
+        transaction.setStatus(status);
         transaction.setModifiedDate(now);
         transaction.setFailReason(failReason);
         transaction.setDisplayMessage(displayMessage);
@@ -208,7 +208,7 @@ public abstract class AbstractThirdPartyCommand<T extends IClientCardRequest, K 
         transactionLog.setMobileNumber(mobileNumber);
         transactionLog.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         transactionLog.setTransactionType(transactionType);
-        transactionLog.setType((long) logType.getValue());
+        transactionLog.setType(logType.getValue());
         transactionLog.setTransactionId(transaction.getId());
 
         return transactionLog;

@@ -10,11 +10,11 @@ public class TransactionLog {
     private long id;
     private String mobileNumber;
     private String cif;
-    private long transactionType;
-    private long sourceType;
+    private Byte transactionType;
+    private Byte sourceType;
     private Timestamp createdDate;
     private String clientIp;
-    private Long type;
+    private Byte type;
     private String headers;
     private String body;
     private long transactionId;
@@ -53,21 +53,21 @@ public class TransactionLog {
 
     @Basic
     @Column(name = "TRANSACTION_TYPE")
-    public long getTransactionType() {
+    public Byte getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(long transactionType) {
+    public void setTransactionType(Byte transactionType) {
         this.transactionType = transactionType;
     }
 
     @Basic
     @Column(name = "SOURCE_TYPE")
-    public long getSourceType() {
+    public Byte getSourceType() {
         return sourceType;
     }
 
-    public void setSourceType(long sourceType) {
+    public void setSourceType(Byte sourceType) {
         this.sourceType = sourceType;
     }
 
@@ -93,11 +93,11 @@ public class TransactionLog {
 
     @Basic
     @Column(name = "TYPE")
-    public Long getType() {
+    public Byte getType() {
         return type;
     }
 
-    public void setType(Long type) {
+    public void setType(Byte type) {
         this.type = type;
     }
 

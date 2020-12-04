@@ -111,7 +111,7 @@ public class ChargeAvailabilityCommand extends AbstractThirdPartyCommand<ClientC
     @Override
     protected Charge updateSubTransactionInDB(ChargeAvailabilityResponse response, byte transactionStatus) {
 
-        subTransaction.setReserveStatus((long) transactionStatus);
+        subTransaction.setReserveStatus(transactionStatus);
 
         if (transactionStatus == TransactionStatus.SUCCESS.getValue()) {
 

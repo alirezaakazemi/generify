@@ -27,7 +27,7 @@ import java.util.Map;
  * <p>1- Create bankRequest with {@link AbstractService#createBankRequest(IClientRequest, RequestHeaders)}
  * <p>2- Call service of bank with {@link AbstractService#callService(IBankRequest, RequestHeaders)}
  * <p>3- Handle response of {@link AbstractService#callService(IBankRequest, RequestHeaders)} with {@link AbstractService#handleBankResponseAndLogReceivedResponse(Response, RequestHeaders)}
- * <p>4- Write necessary data to database with {@link AbstractService#storeTransactionInDB(RequestHeaders, String, Long, Long)}
+ * <p>4- Write necessary data to database with {@link AbstractService#storeTransactionInDB(RequestHeaders, String, Byte, Long)}
  * <p>5- Create client response with {@link AbstractService#createClientResponse(IBankResponse)}
  * <p>6- Write client request/response and bank request/response to database with {@link AbstractService#storeClientRequestLog(IClientRequest, RequestHeaders)}
  * And {@link AbstractService#storeClientResponseLog(String, RequestHeaders)} (IClientResponse, RequestHeaders)} And {@link AbstractService#storeRequestSentToBankLog(IBankRequest, RequestHeaders)}
@@ -47,6 +47,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
     protected Transaction transaction;
     protected LogRepository logRepository;
     protected TransactionRepository transactionRepository;
+    protected AppConfig appConfig;
 
     /**
      * In this constructor you must pass messageSource param. in the subclass you should define parameter
@@ -57,10 +58,11 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
      * @param messageSource         used for reading persian messages from messages.properties file.
      * @param transactionRepository
      */
-    public AbstractService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
+    public AbstractService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
         this.messageSource = messageSource;
         this.logRepository = logRepository;
         this.transactionRepository = transactionRepository;
+        this.appConfig = appConfig;
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
      * @param amount
      * @return
      */
-    protected Transaction storeTransactionInDB(RequestHeaders headers, String source, Long sourceType, Long amount) {
+    protected Transaction storeTransactionInDB(RequestHeaders headers, String source, Byte sourceType, Long amount) {
 
         // Get current time
         Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -102,7 +104,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
         return transactionRepository.save(transaction);
     }
 
-    protected abstract void storeSubTransactionInDB(T clientRequest);
+    protected abstract void storeSubTransactionInDB(T clientRequest, RequestHeaders headers);
 
     /**
      * Store body of client request in database
@@ -260,7 +262,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
 
         // Initial transaction
         transaction.setResponseCode(responseCode);
-        transaction.setStatus(Long.valueOf(status));
+        transaction.setStatus(status);
         transaction.setTransactionDate(transactionDate);
         transaction.setModifiedDate(now);
         transaction.setFailReason(failReason);
@@ -409,7 +411,7 @@ public abstract class AbstractService<T extends IClientRequest, K extends IClien
         transactionLog.setBody(body);
         transactionLog.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         transactionLog.setTransactionType(getTransactionType());
-        transactionLog.setType((long) logType.getValue());
+        transactionLog.setType(logType.getValue());
         transactionLog.setTransactionId(transaction.getId());
         transactionLog.setHeaders(requestHeaders.toString());
 

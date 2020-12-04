@@ -1,4 +1,4 @@
-package com.ada.parsian.parsianmobilebank.service;
+package com.ada.parsian.parsianmobilebank.service.thirdparty;
 
 import com.ada.parsian.parsianmobilebank.AppConfig;
 import com.ada.parsian.parsianmobilebank.Util.ParsianUtil;
@@ -48,7 +48,7 @@ public class ChargeRefundService {
         }
 
         // Update charge to refunded
-        charge.setRefunded(true);
+        charge.setRefunded((byte) 1);
         charge = chargeRepository.save(charge);
 
 //        // Call reverse todo(Reverse of payment must be implemented)

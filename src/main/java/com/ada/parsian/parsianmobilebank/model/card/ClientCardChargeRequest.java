@@ -1,15 +1,38 @@
 package com.ada.parsian.parsianmobilebank.model.card;
 
-public class ClientCardChargeRequest implements IClientCardRequest {
+import com.ada.parsian.parsianmobilebank.model.ClientBaseRequest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class ClientCardChargeRequest extends ClientBaseRequest implements IClientCardRequest {
+
+    @JsonProperty("tracker_id")
+    private String trackerId;
+
+    @JsonProperty("product_id")
     private String productId;
+
+    @JsonProperty("dest_phone_number")
     private String destPhoneNumber;
+
+    @JsonProperty("service_type")
     private String serviceType;
+
     private long amount;
+
     private String pan;
-    private ClientCardAuthorizeParams cardAuthorizeParams;
+
+    @JsonProperty("source_deposit")
+    private String sourceDeposit;
 
     public ClientCardChargeRequest() {
+    }
+
+    public String getTrackerId() {
+        return trackerId;
+    }
+
+    public void setTrackerId(String trackerId) {
+        this.trackerId = trackerId;
     }
 
     public String getProductId() {
@@ -52,11 +75,11 @@ public class ClientCardChargeRequest implements IClientCardRequest {
         this.pan = pan;
     }
 
-    public ClientCardAuthorizeParams getCardAuthorizeParams() {
-        return cardAuthorizeParams;
+    public String getSourceDeposit() {
+        return sourceDeposit;
     }
 
-    public void setCardAuthorizeParams(ClientCardAuthorizeParams cardAuthorizeParams) {
-        this.cardAuthorizeParams = cardAuthorizeParams;
+    public void setSourceDeposit(String sourceDeposit) {
+        this.sourceDeposit = sourceDeposit;
     }
 }

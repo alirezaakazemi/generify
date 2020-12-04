@@ -31,8 +31,8 @@ public class CardStatementInquiryService extends AbstractCardService<ClientCardS
      * @param logRepository
      * @param transactionRepository
      */
-    public CardStatementInquiryService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository) {
-        super(messageSource, logRepository, transactionRepository);
+    public CardStatementInquiryService(MessageSource messageSource, LogRepository logRepository, TransactionRepository transactionRepository, AppConfig appConfig) {
+        super(messageSource, logRepository, transactionRepository, appConfig);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CardStatementInquiryService extends AbstractCardService<ClientCardS
     }
 
     @Override
-    protected void storeSubTransactionInDB(ClientCardStatementInquiryRequest clientRequest) {
+    protected void storeSubTransactionInDB(ClientCardStatementInquiryRequest clientRequest, RequestHeaders headers) {
 
     }
 
@@ -77,7 +77,7 @@ public class CardStatementInquiryService extends AbstractCardService<ClientCardS
         bankRequest.setDepositNumber(clientRequest.getDepositNumber());
         bankRequest.setPan(clientRequest.getPan());
 
-        bankRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getCardAuthorizeParams()));
+        bankRequest.setCardAuthorizeParams(getCardAuthorizeParams(clientRequest.getEauth()));
 
         return bankRequest;
     }

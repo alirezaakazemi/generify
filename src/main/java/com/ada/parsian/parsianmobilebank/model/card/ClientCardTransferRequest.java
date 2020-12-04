@@ -1,14 +1,30 @@
 package com.ada.parsian.parsianmobilebank.model.card;
 
-public class ClientCardTransferRequest implements IClientCardRequest {
+import com.ada.parsian.parsianmobilebank.model.ClientBaseRequest;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class ClientCardTransferRequest extends ClientBaseRequest implements IClientCardRequest {
+
+    @JsonProperty("tracker_id")
+    private String trackerId;
 
     private long amount;
-    private String destinationPan;
+    private String destination;
     private String pan;
     private String transactionNumber;
-    private ClientCardAuthorizeParams cardAuthorizeParams;
+
+    @JsonProperty("destination_type")
+    private String destinationType;
 
     public ClientCardTransferRequest() {
+    }
+
+    public String getTrackerId() {
+        return trackerId;
+    }
+
+    public void setTrackerId(String trackerId) {
+        this.trackerId = trackerId;
     }
 
     public long getAmount() {
@@ -19,12 +35,12 @@ public class ClientCardTransferRequest implements IClientCardRequest {
         this.amount = amount;
     }
 
-    public String getDestinationPan() {
-        return destinationPan;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setDestinationPan(String destinationPan) {
-        this.destinationPan = destinationPan;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public String getPan() {
@@ -43,11 +59,11 @@ public class ClientCardTransferRequest implements IClientCardRequest {
         this.transactionNumber = transactionNumber;
     }
 
-    public ClientCardAuthorizeParams getCardAuthorizeParams() {
-        return cardAuthorizeParams;
+    public String getDestinationType() {
+        return destinationType;
     }
 
-    public void setCardAuthorizeParams(ClientCardAuthorizeParams cardAuthorizeParams) {
-        this.cardAuthorizeParams = cardAuthorizeParams;
+    public void setDestinationType(String destinationType) {
+        this.destinationType = destinationType;
     }
 }

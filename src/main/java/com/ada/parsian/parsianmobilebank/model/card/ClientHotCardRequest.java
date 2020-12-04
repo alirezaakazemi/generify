@@ -22,14 +22,4 @@ public class ClientHotCardRequest implements IClientCardRequest {
     public void setReason(String reason) {
         this.reason = reason;
     }
-
-    @Override
-    public ClientCardAuthorizeParams getCardAuthorizeParams() {
-        return null;
-    }
-
-    @Override
-    public void setCardAuthorizeParams(ClientCardAuthorizeParams cardAuthorizeParams) {
-
-    }
 }

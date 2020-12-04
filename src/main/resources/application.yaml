@@ -15,3 +15,5 @@ chargeServiceConfig:
   endpoint: http://192.168.2.61:3000/
   username: test
   password: test
+encryptionParam:
+  secretKey: secretKey1234567
