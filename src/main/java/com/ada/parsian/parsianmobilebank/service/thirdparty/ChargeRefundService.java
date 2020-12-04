@@ -48,7 +48,7 @@ public class ChargeRefundService {
         }
 
         // Update charge to refunded
-        charge.setRefunded(true);
+        charge.setRefunded((byte) 1);
         charge = chargeRepository.save(charge);
 
 //        // Call reverse todo(Reverse of payment must be implemented)

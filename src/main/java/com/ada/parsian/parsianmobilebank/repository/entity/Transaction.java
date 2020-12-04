@@ -9,12 +9,12 @@ public class Transaction {
     private long id;
     private String mobileNumber;
     private String cif;
-    private Long sourceType;
+    private Byte sourceType;
     private String source;
     private Long amount;
-    private long transactionType;
+    private Byte transactionType;
     private String responseCode;
-    private Long status;
+    private Byte status;
     private Timestamp transactionDate;
     private Timestamp createdDate;
     private Timestamp modifiedDate;
@@ -58,11 +58,11 @@ public class Transaction {
 
     @Basic
     @Column(name = "SOURCE_TYPE")
-    public Long getSourceType() {
+    public Byte getSourceType() {
         return sourceType;
     }
 
-    public void setSourceType(Long sourceType) {
+    public void setSourceType(Byte sourceType) {
         this.sourceType = sourceType;
     }
 
@@ -88,11 +88,11 @@ public class Transaction {
 
     @Basic
     @Column(name = "TRANSACTION_TYPE")
-    public long getTransactionType() {
+    public Byte getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(long transactionType) {
+    public void setTransactionType(Byte transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -108,11 +108,11 @@ public class Transaction {
 
     @Basic
     @Column(name = "STATUS")
-    public Long getStatus() {
+    public Byte getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(Byte status) {
         this.status = status;
     }
 
@@ -202,7 +202,7 @@ public class Transaction {
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
         return id == that.id &&
-                transactionType == that.transactionType &&
+                transactionType.equals(that.transactionType) &&
                 Objects.equals(mobileNumber, that.mobileNumber) &&
                 Objects.equals(cif, that.cif) &&
                 Objects.equals(sourceType, that.sourceType) &&

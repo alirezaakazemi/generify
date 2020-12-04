@@ -3,12 +3,12 @@ CREATE TABLE TRANSACTION
     ID                       NUMBER(16) PRIMARY KEY NOT NULL,
     MOBILE_NUMBER            VARCHAR(20)            NOT NULL,
     CIF                      VARCHAR(100)           NULL,
-    SOURCE_TYPE              NUMBER(2)              NULL,
+    SOURCE_TYPE              NUMBER(1)              NULL,
     SOURCE                   VARCHAR(100)           NULL,
     AMOUNT                   NUMBER(16)             NULL,
-    TRANSACTION_TYPE         NUMBER(2)              NOT NULL,
+    TRANSACTION_TYPE         NUMBER(1)              NOT NULL,
     RESPONSE_CODE            VARCHAR(10)            NULL,
-    STATUS                   NUMBER(2)              NULL,
+    STATUS                   NUMBER(1)              NULL,
     TRANSACTION_DATE         TIMESTAMP(6)           NULL,
     CREATED_DATE             TIMESTAMP(6)           NOT NULL,
     MODIFIED_DATE            TIMESTAMP(6)           NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE CARD_TRANSFER
 (
     TRANSACTION_ID   NUMBER(16) PRIMARY KEY NOT NULL,
     DESTINATION      VARCHAR(50)            NOT NULL,
-    DESTINATION_TYPE NUMBER(2)              NOT NULL,
+    DESTINATION_TYPE NUMBER(1)              NOT NULL,
     CONSTRAINT FK_CARD_TRANSFER__TRANSACTION FOREIGN KEY (TRANSACTION_ID) REFERENCES TRANSACTION (ID)
 );
 
@@ -33,10 +33,10 @@ CREATE TABLE CHARGE
     REQUEST_ID         VARCHAR(100)           NULL,
     PRODUCT_ID         NUMBER(16)             NOT NULL,
     DESTINATION_MOBILE VARCHAR(20)            NOT NULL,
-    CHARGE_STATUS      NUMBER(2)              NOT NULL,
-    RESERVE_STATUS     NUMBER(2)              NULL,
-    REVERSE_STATUS     NUMBER(2)              NULL,
-    PAYMENT_STATUS     NUMBER(2)              NULL,
+    CHARGE_STATUS      NUMBER(1)              NOT NULL,
+    RESERVE_STATUS     NUMBER(1)              NULL,
+    REVERSE_STATUS     NUMBER(1)              NULL,
+    PAYMENT_STATUS     NUMBER(1)              NULL,
     REFUNDED           NUMBER(1)              NULL,
     CONSTRAINT FK_CHARGE__TRANSACTION FOREIGN KEY (TRANSACTION_ID) REFERENCES TRANSACTION (ID)
 );
@@ -46,6 +46,6 @@ CREATE TABLE PAY_BILL
     TRANSACTION_ID NUMBER(16) PRIMARY KEY NOT NULL,
     BILL_ID        VARCHAR(100)           NOT NULL,
     PAY_ID         VARCHAR(100)           NOT NULL,
-    BILL_TYPE      NUMBER(2)              NULL,
+    BILL_TYPE      VARCHAR(100)           NULL,
     CONSTRAINT FK_PAY_BILL__TRANSACTION FOREIGN KEY (TRANSACTION_ID) REFERENCES TRANSACTION (ID)
 );

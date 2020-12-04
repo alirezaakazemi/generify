@@ -8,7 +8,7 @@ import java.util.Objects;
 public class CardTransfer {
     private long transactionId;
     private String destination;
-    private long destinationType;
+    private Byte destinationType;
 
     @Id
     @Column(name = "TRANSACTION_ID")
@@ -32,11 +32,11 @@ public class CardTransfer {
 
     @Basic
     @Column(name = "DESTINATION_TYPE")
-    public long getDestinationType() {
+    public Byte getDestinationType() {
         return destinationType;
     }
 
-    public void setDestinationType(long destinationType) {
+    public void setDestinationType(Byte destinationType) {
         this.destinationType = destinationType;
     }
 

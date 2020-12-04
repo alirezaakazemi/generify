@@ -142,7 +142,7 @@ public class CardChargeService extends AbstractCardService<ClientCardChargeReque
     @Override
     protected void updateSubTransaction(BankCardPaymentResponse response, Byte transactionStatus) {
 
-        charge.setPaymentStatus(Long.valueOf(transactionStatus));
+        charge.setPaymentStatus(transactionStatus);
         charge = chargeRepository.save(charge);
     }
 
