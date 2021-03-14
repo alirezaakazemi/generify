@@ -10,14 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class ParsianMobileBankApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class GenerifyApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
     @Autowired
     private AppConfig appConfig;
 
     public static void main(String[] args) {
 
-        SpringApplication.run(ParsianMobileBankApplication.class, args);
+        SpringApplication.run(GenerifyApplication.class, args);
     }
 
     @Override
